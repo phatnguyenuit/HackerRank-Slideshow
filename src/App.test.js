@@ -1,24 +1,26 @@
 import React from 'react';
 import App from './App';
-import { render, within, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 
 import '@testing-library/jest-dom/extend-expect';
 
 const testIds = {
-  restartButton: "button-restart",
-  prevButton: "button-prev",
-  nextButton: "button-next",
-  title: "title",
-  text: "text",
+  restartButton: 'button-restart',
+  prevButton: 'button-prev',
+  nextButton: 'button-next',
+  title: 'title',
+  text: 'text',
 };
 
-const makeSlides = (numSlides) => Array.from({length: 10}, (_, idx) => ({ title: `title ${idx}`, text: `text ${idx}` }));
+const makeSlides = (numSlides) =>
+  Array.from({ length: numSlides }, (_, idx) => ({
+    title: `title ${idx}`,
+    text: `text ${idx}`,
+  }));
 
 const renderApp = (slides) => render(<App slides={slides} />);
 
-
-beforeEach(() => {
-});
+beforeEach(() => {});
 
 afterEach(() => {
   cleanup();
@@ -30,15 +32,15 @@ test('App renders correctly', () => {
   const { getByTestId } = renderApp(slides);
 
   const restartButton = getByTestId(testIds.restartButton);
-  expect(restartButton).toHaveTextContent("Restart");
+  expect(restartButton).toHaveTextContent('Restart');
   expect(restartButton).toBeDisabled();
 
   const prevButton = getByTestId(testIds.prevButton);
-  expect(prevButton).toHaveTextContent("Prev");
+  expect(prevButton).toHaveTextContent('Prev');
   expect(prevButton).toBeDisabled();
 
   const nextButton = getByTestId(testIds.nextButton);
-  expect(nextButton).toHaveTextContent("Next");
+  expect(nextButton).toHaveTextContent('Next');
   expect(nextButton).toBeEnabled();
 
   const titleElem = getByTestId(testIds.title);
@@ -60,7 +62,20 @@ test('Switching between slides works as expected', () => {
   const textElem = getByTestId(testIds.text);
 
   const clicks = [
-    'next', 'next', 'next', 'prev', 'prev', 'prev', 'next', 'next', 'restart', 'next', 'next', 'next', 'next', 'prev',
+    'next',
+    'next',
+    'next',
+    'prev',
+    'prev',
+    'prev',
+    'next',
+    'next',
+    'restart',
+    'next',
+    'next',
+    'next',
+    'next',
+    'prev',
   ];
 
   let idx = 0;
@@ -86,7 +101,7 @@ test('Switching between slides works as expected', () => {
       expect(prevButton).toBeDisabled();
     }
 
-    if (idx+1 < slides.length) {
+    if (idx + 1 < slides.length) {
       expect(nextButton).toBeEnabled();
     } else {
       expect(nextButton).toBeDisabled();
